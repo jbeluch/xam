@@ -55,7 +55,7 @@ commands:
 optional arguments:
     -r URL, --repo URL
         Either an official repo name [eden, eden_pre, dharma, dharma_pre]
-        or a URL to a zipped repository file. Defaults to "eden". (A list
+        or a URL to a zipped repository file. Defaults to "eden". A list
         of 3rd party repos can be found here:
         http://wiki.xbmc.org/index.php?title=3rd_party_add-on_repositories
 
