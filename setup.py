@@ -20,6 +20,23 @@ Links
 '''
 from setuptools import setup
 
+def get_requires():
+    '''If python > 2.7, argparse and OrderedDict will be included. Otherwsise
+    we need external packages.
+    '''
+    requires = ['requests']
+    try:
+        import argparse
+    except ImportError:
+        requires.append('argparse')
+
+    try:
+        from collections import OrderedDict
+    except ImportError:
+        requires.append('collective.ordereddict')
+    return requires
+
+
 setup(
     name='xam',
     version='0.1',
@@ -32,10 +49,7 @@ setup(
     long_description=__doc__,
     packages=['xam'],
     platforms='any',
-    install_requires=[
-        'python>=2.7',
-        'requests'
-    ],
+    install_requires=get_requires(),
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',

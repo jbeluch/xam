@@ -10,7 +10,10 @@
 '''
 from functools import wraps
 from xml.etree import ElementTree as ET
-from collections import OrderedDict
+try:
+    from collections import OrderedDict
+except ImportError:
+    from collective.ordereddict import OrderedDict
 
 
 def silence_attr_error(func):
