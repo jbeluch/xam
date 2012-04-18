@@ -39,7 +39,7 @@ def get_requires():
 
 setup(
     name='xam',
-    version='0.1',
+    version='0.1.1',
     url='http://github.com/jbeluch/xam/',
     license='BSD',
     author='Jonathan Beluch',
