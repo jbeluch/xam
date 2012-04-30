@@ -38,7 +38,7 @@ class Addon(object):
 
     def __init__(self, xml):
         '''Intializes an addon object for the provided addon xml'''
-        self.xml = xml
+        self._xml = xml
         # These three properties are required, everything else is optional
         required_attrs = ['id', 'name', 'version']
         for attr in required_attrs:
@@ -47,6 +47,11 @@ class Addon(object):
 
     def __repr__(self):
         return '<Addon %s %s>' % (self.id, self.version)
+
+    @property
+    def xml(self):
+        '''Retursn the root xml element for the addon'''
+        return self._xml
 
     def to_xml_string(self):
         '''Returns a string containing the addon's xml'''
