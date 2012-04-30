@@ -1,3 +1,5 @@
 dist/
 xam.egg-info/
 build/
+*.pyc
+*.pyo
