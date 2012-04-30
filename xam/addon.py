@@ -52,10 +52,16 @@ class Addon(object):
         '''Returns a string containing the addon's xml'''
         return ET.tostring(self.xml, encoding='utf-8')
 
-    @property
-    def version(self):
+    def _get_version(self):
         '''Returns the addon's version'''
         return self.xml.get('version')
+
+    def _set_version(self, version):
+        '''Sets the addon's version'''
+        self.xml.set('version', version)
+
+    version = property(_get_version, _set_version)
+    del _get_version, _set_version
 
     @property
     def id(self):

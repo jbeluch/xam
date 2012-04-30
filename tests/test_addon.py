@@ -39,3 +39,11 @@ class TestAddon(TestCase):
         ), addon.descriptions)
         self.assertEqual('Browse online courses and lectures from the world\'s top scholars.',
                          addon.description())
+
+
+    def test_setters(self):
+        xml = ET.parse(os.path.join(os.path.dirname(__file__), 'data', 'addon.xml')).getroot()
+        addon = Addon(xml)
+        self.assertEqual('1.2.1', addon.version)
+        addon.version = '1.2.2'
+        self.assertEqual('1.2.2', addon.version)
