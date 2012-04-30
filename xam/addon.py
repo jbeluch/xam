@@ -111,6 +111,7 @@ class Addon(object):
         '''Returns an OrderedDict of the addon's summaries. Key is an
         XBMC language code and value is the corresponding summary text.
         '''
+        # TODO: figure out if we can default to en when no lang attr is present
         return OrderedDict((sum.get('lang'), sum.text) for sum in
                             self.metadata.findall('summary'))
 
