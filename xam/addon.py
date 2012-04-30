@@ -38,11 +38,12 @@ class Addon(object):
 
     def __init__(self, xml):
         '''Intializes an addon object for the provided addon xml'''
-        # These three properties are required, everything else is optional
-        self.id = xml.attrib['id']
-        self.name = xml.attrib['name']
-        self.version = xml.attrib['version']
         self.xml = xml
+        # These three properties are required, everything else is optional
+        required_attrs = ['id', 'name', 'version']
+        for attr in required_attrs:
+            if attr not in self.xml.keys():
+                raise Exception('Provided xml is missing the %s attribute' % attr)
 
     def __repr__(self):
         return '<Addon %s %s>' % (self.id, self.version)
@@ -50,6 +51,21 @@ class Addon(object):
     def to_xml_string(self):
         '''Returns a string containing the addon's xml'''
         return ET.tostring(self.xml, encoding='utf-8')
+
+    @property
+    def version(self):
+        '''Returns the addon's version'''
+        return self.xml.get('version')
+
+    @property
+    def id(self):
+        '''Returns the addon's id'''
+        return self.xml.get('id')
+
+    @property
+    def name(self):
+        '''Returns the addon's name'''
+        return self.xml.get('name')
 
     @property
     def provider(self):
