@@ -89,7 +89,7 @@ class Addon(object):
         addon id and value is the required version.'''
         requires = self.xml.find('requires')
         if requires is not None:
-            return dict((required.get('addon'), required.get('version'))
+            return OrderedDict((required.get('addon'), required.get('version'))
                     for required in requires.findall('import'))
         return {}
 
