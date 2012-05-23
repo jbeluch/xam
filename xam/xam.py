@@ -11,8 +11,11 @@ import os
 import sys
 import argparse
 
+from xml.etree import ElementTree as ET
+
 import repos
 from .repository import Repository
+from .addon import Addon
 from .common import urlretrieve
 
 
@@ -51,6 +54,11 @@ commands:
     search
         Prints addon ids and matching lines for the provided text. A case
         insensitive seach of addon xml files is performed.
+
+    freeze
+        Prints addon ids and version numbers for all addons found in the curent
+        working directory. If from from an XBMC installation's 'addons'
+        directory, it will serve as a list of all installed addons.
 
 optional arguments:
     -r URL, --repo URL
@@ -93,11 +101,12 @@ def parse_cli():
     parser.add_argument('args', nargs='*')
     args = parser.parse_args()
 
-    if args.command not in ['search', 'info', 'depends', 'get', 'all']:
+    if args.command not in ['search', 'info', 'depends', 'get', 'all',
+                            'freeze']:
         parser.error('Invalid command')
 
     # All commands require at least 1 arg except for all
-    if args.command != 'all' and len(args.args) == 0:
+    if args.command not in ['all', 'freeze'] and len(args.args) == 0:
         parser.error('Too few args')
 
     if args.command == 'all' and len(args.args) > 0:
@@ -188,6 +197,26 @@ def get(args):
             urlretrieve(url, os.path.join(addon.id, url.rsplit('/', 1)[1]))
 
 
+def freeze(args):
+    '''Prints a list of installed XBMC addons and their versions to STDOUT.
+    Command must be run from the 'addons' folder.
+    '''
+    dirs = (_file for _file in os.listdir(os.getcwd()) if os.path.isdir(_file))
+    output = []
+    for _dir in dirs:
+        try:
+            addon_xml = ET.parse(os.path.join(os.getcwd(), _dir, 'addon.xml'))
+        except IOError:
+            continue
+        addon = Addon(addon_xml.getroot())
+        output.append('%s==%s' % (addon.id, addon.version))
+
+    if output:
+        print '\n'.join(sorted(output))
+    else:
+        print 'No addons found. Did you run from the xbmc addons directory?'
+
+
 def print_addons(addons, detailed=False):
     '''Prints a list of addons to STDOUT'''
     for addon in addons:
@@ -220,6 +249,7 @@ def main():
         'depends': depends,
         'get': get,
         'search': search,
+        'freeze': freeze,
     }
 
     # Set up .xam_cache folder

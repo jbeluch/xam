@@ -126,3 +126,15 @@ Example Usage
         <description>Browse online courses and lectures from the world's top scholars.</description>
       </extension>
     </addon>
+
+### List all addons for an XBMC installation
+
+    $ cd ~/.xbmc/addons/
+    $ xam freeze
+    metadata.artists.allmusic.com==2.0.6
+    metadata.common.allmusic.com==1.8.2
+    metadata.common.hdtrailers.net==1.0.7
+    skin.aeon.nox==2.0.0
+    ...
+    webinterface.wtouch==0.4
+
