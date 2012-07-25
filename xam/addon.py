@@ -103,7 +103,14 @@ class Addon(object):
     @silence_attr_error
     def metadata(self):
         '''The addon's metadata xml element'''
-        return self.xml.find('./extension[@point="xbmc.addon.metadata"]')
+        try:
+            return self.xml.find('./extension[@point="xbmc.addon.metadata"]')
+        except SyntaxError:
+            # ElementTree < 1.3 (python < 2.7) doesn't include xpath support
+            for tag in self.xml.findall('extension'):
+                if tag.get('point') == 'xbmc.addon.metadata':
+                    return tag
+            return None
 
     #@property
     #@silence_attr_error

@@ -25,7 +25,7 @@ class TestAddon(TestCase):
         }, addon.dependencies)
 
         # TODO: better way to test this
-        self.assertIsNotNone(addon.metadata)
+        self.assertNotEqual(None, addon.metadata)
         self.assertEqual('all', addon.platform)
         self.assertEqual(OrderedDict(
             [(None, 'Watch lectures from Academic Earth (http://academicearth.org)')]
