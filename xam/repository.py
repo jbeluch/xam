@@ -12,7 +12,7 @@ from urlparse import urljoin
 from xml.etree import ElementTree as ET
 import requests
 
-from .common import urlretrieve
+from .common import urlretrieve, unicode_parser
 from .addon import Addon
 
 
@@ -82,7 +82,7 @@ class Repository(object):
 
         # Parse the addon.xml and extract the three URLs
         with zipfile.open(addon_xml_filename) as addon_xml:
-            xml = ET.parse(addon_xml)
+            xml = ET.parse(addon_xml, parser=unicode_parser)
         extension = xml.find('extension[@point="xbmc.addon.repository"]')
         info_url = extension.find('info').text
         checksum_url = extension.find('checksum').text
@@ -149,7 +149,7 @@ class Repository(object):
     def parse_addons(self):
         '''Parses this repository's addons.xml file and creates Addon
         instances for each addon listed.'''
-        self.xml = ET.fromstring(self.addons_xml)
+        self.xml = ET.fromstring(self.addons_xml, parser=unicode_parser)
         self._addons = [Addon(addon) for addon in self.xml.findall('addon')]
 
     def addon_data_urls(self, addon):

@@ -8,7 +8,17 @@
     :license: BSD, see LICENSE for more details.
 
 '''
+from xml.etree import ElementTree as ET
 import requests
+
+class UnicodeBuilder(ET.XMLTreeBuilder):
+
+    def _fixtext(self, text):
+        '''Override the parent class which attempts to encode to ascii'''
+        return text
+
+
+unicode_parser = UnicodeBuilder()
 
 
 def urlretrieve(url, filename):

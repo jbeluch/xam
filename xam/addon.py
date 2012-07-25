@@ -14,6 +14,7 @@ try:
     from collections import OrderedDict
 except ImportError:
     from collective.ordereddict import OrderedDict
+from .common import unicode_parser
 
 
 def silence_attr_error(func):
@@ -44,6 +45,11 @@ class Addon(object):
         for attr in required_attrs:
             if attr not in self.xml.keys():
                 raise Exception('Provided xml is missing the %s attribute' % attr)
+
+    @classmethod
+    def from_filename(cls, filename):
+        xml = ET.parse(filename, parser=unicode_parser)
+        return cls(xml.getroot())
 
     def __repr__(self):
         return '<Addon %s %s>' % (self.id, self.version)

@@ -10,21 +10,37 @@ except ImportError:
 
 class TestAddon(TestCase):
 
+    def assert_attrs(self, obj, attrs):
+        for attr_name, expected_value in attrs.items():
+            attr_value = getattr(obj, attr_name)
+            self.assertEqual(expected_value, attr_value)
+            self.assertTrue(isinstance(attr_value, unicode))
+
+    def assert_dict(self, expected, actual):
+        for key, val in actual.items():
+            self.assertTrue(isinstance(key, unicode))
+            self.assertTrue(isinstance(val, unicode))
+        self.assertEqual(expected, actual)
+
     def test_parse(self):
-        xml = ET.parse(os.path.join(os.path.dirname(__file__), 'data', 'addon.xml')).getroot()
-        addon = Addon(xml)
-        self.assertEqual('1.2.1', addon.version)
-        self.assertEqual('plugin.video.academicearth', addon.id)
-        self.assertEqual('Academic Earth', addon.name)
-        self.assertEqual('Jonathan Beluch (jbel)', addon.provider)
-        self.assertEqual({
-            'xbmc.python': '2.0',
-            'script.module.beautifulsoup': '3.0.8',
-            'script.module.xbmcswift': '0.2.0',
-            'plugin.video.youtube': '2.9.1',
+        addon = Addon.from_filename(os.path.join(os.path.dirname(__file__), 'data', 'addon.xml'))
+
+        expected = {
+            # attr_name: expected_value
+            'version': u'1.2.1',
+            'id': u'plugin.video.academicearth',
+            'name': u'Academic Earth',
+            'provider': u'Jonathan Beluch (jbel)',
+        }
+        self.assert_attrs(addon, expected)
+
+        self.assert_dict({
+            u'xbmc.python': u'2.0',
+            u'script.module.beautifulsoup': u'3.0.8',
+            u'script.module.xbmcswift': u'0.2.0',
+            u'plugin.video.youtube': u'2.9.1',
         }, addon.dependencies)
 
-        # TODO: better way to test this
         self.assertNotEqual(None, addon.metadata)
         self.assertEqual('all', addon.platform)
         self.assertEqual(OrderedDict(
