@@ -56,7 +56,7 @@ class Addon(object):
 
     @property
     def xml(self):
-        '''Retursn the root xml element for the addon'''
+        '''Returns the root xml element for the addon'''
         return self._xml
 
     def to_xml_string(self):

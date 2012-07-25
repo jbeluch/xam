@@ -12,6 +12,7 @@ import sys
 import argparse
 
 import repos
+from .release import release
 from .repository import Repository
 from .common import urlretrieve
 
@@ -93,7 +94,7 @@ def parse_cli():
     parser.add_argument('args', nargs='*')
     args = parser.parse_args()
 
-    if args.command not in ['search', 'info', 'depends', 'get', 'all']:
+    if args.command not in ['search', 'info', 'depends', 'get', 'all', 'release']:
         parser.error('Invalid command')
 
     # All commands require at least 1 arg except for all
@@ -220,6 +221,7 @@ def main():
         'depends': depends,
         'get': get,
         'search': search,
+        'release': release,
     }
 
     # Set up .xam_cache folder
