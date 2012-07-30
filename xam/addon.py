@@ -14,7 +14,7 @@ try:
     from collections import OrderedDict
 except ImportError:
     from collective.ordereddict import OrderedDict
-from .common import unicode_parser
+from .common import UnicodeBuilder
 
 
 def silence_attr_error(func):
@@ -48,7 +48,7 @@ class Addon(object):
 
     @classmethod
     def from_filename(cls, filename):
-        xml = ET.parse(filename, parser=unicode_parser)
+        xml = ET.parse(filename, parser=UnicodeBuilder())
         return cls(xml.getroot())
 
     def __repr__(self):
@@ -173,3 +173,20 @@ class Addon(object):
             except IndexError:
                 return None
         return self.descriptions.get(lang)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'version': self.version,
+            'provider': self.provider,
+            'dependencies': self.dependencies,
+            'summaries': self.summaries,
+            'descriptions': self.descriptions,
+            'platform': self.platform,
+            '_xml': ET.tostring(self.xml),
+        }
+
+
+
+

@@ -63,3 +63,32 @@ class TestAddon(TestCase):
         self.assertEqual('1.2.1', addon.version)
         addon.version = '1.2.2'
         self.assertEqual('1.2.2', addon.version)
+
+
+    def test_to_dict(self):
+        addon = Addon.from_filename(os.path.join(os.path.dirname(__file__), 'data', 'addon.xml'))
+        actual = addon.to_dict()
+
+        with open(os.path.join(os.path.dirname(__file__), 'data', 'addon.xml')) as inp:
+            xml = inp.read()
+        expected = {
+            'id': u'plugin.video.academicearth',
+            'name': u'Academic Earth',
+            'version': u'1.2.1',
+            'provider': u'Jonathan Beluch (jbel)',
+            'dependencies': {
+                'xbmc.python': '2.0',
+                'script.module.beautifulsoup': '3.0.8',
+                'script.module.xbmcswift': '0.2.0',
+                'plugin.video.youtube': '2.9.1',
+            },
+            'summaries': {None: u"Watch lectures from Academic Earth (http://academicearth.org)"},
+            'descriptions': {None: u"Browse online courses and lectures from the world's top scholars."},
+            'platform': 'all',
+            '_xml': xml,
+        }
+
+        for key, val in expected.items():
+            if not key.startswith('_'):
+                self.assertEqual(val, actual[key])
+

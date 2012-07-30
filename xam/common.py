@@ -18,9 +18,6 @@ class UnicodeBuilder(ET.XMLTreeBuilder):
         return text
 
 
-unicode_parser = UnicodeBuilder()
-
-
 def urlretrieve(url, filename):
     '''Downloads the resource found at the remote url to the provided
     filename if the url returns an OK status.'''
