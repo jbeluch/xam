@@ -142,12 +142,12 @@ def release(args):
 
     # git tag release
     prompt('Creating tag %s' % new_version)
-    check_call('git tag -a "test-%s" -m "%s v%s"' % (new_version, xbmc_version,
+    check_call('git tag -a "%s" -m "%s v%s"' % (new_version, xbmc_version,
                                                      new_version), shell=True)
 
     # git push
     prompt('Now pushing new commit and new tag to remote')
-    check_call('git push --all origin', shell=True)
+    check_call('git push --tags origin', shell=True)
 
     print
     print 'Congrats. Release was successful. See mailing list email below.'
