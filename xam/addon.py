@@ -99,11 +99,14 @@ class Addon(object):
                     for required in requires.findall('import'))
         return {}
 
-    #@property
-    #def extensions(self):
-        #extensions = self.xml.findall('extension')
-        #if extensions:
-            #return dict((ext.get('point')
+    @property
+    def extensions(self):
+        '''Returns a dict of extension xml nodes keyed by the 'point'
+        attribute.
+        '''
+        extensions = self.xml.findall('extension')
+        if extensions:
+            return dict((ext.get('point'), ext) for ext in extensions)
 
     @property
     @silence_attr_error
