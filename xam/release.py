@@ -147,7 +147,7 @@ def release(args):
 
     # git push
     prompt('Now pushing new commit and new tag to remote')
-    check_call('git push --tags origin', shell=True)
+    check_call('git push && git push --tags', shell=True)
 
     print
     print 'Congrats. Release was successful. See mailing list email below.'
