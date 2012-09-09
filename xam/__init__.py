@@ -1,3 +1,4 @@
+import repos
 from addon import Addon
 from repository import Repository
 
