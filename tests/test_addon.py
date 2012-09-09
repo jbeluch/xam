@@ -92,3 +92,7 @@ class TestAddon(TestCase):
             if not key.startswith('_'):
                 self.assertEqual(val, actual[key])
 
+
+if __name__ == '__main__':
+    import unittest
+    unittest.main()

@@ -12,6 +12,7 @@ from urlparse import urljoin
 from xml.etree import ElementTree as ET
 import requests
 
+import repos
 from .common import urlretrieve, UnicodeBuilder
 from .addon import Addon
 
@@ -40,6 +41,17 @@ def write_file(filename, content):
     '''Writes content to filename'''
     with open(filename, 'w') as fileobj:
         fileobj.write(content)
+
+
+def get_repo(name_or_url):
+    '''Returns a repository for a given name or url. name_or_url can be
+    an official repository name found in repos.py or it can be a url to
+    a zipped repository file.
+    '''
+    if hasattr(repos, name_or_url.upper()):
+        return Repository(*getattr(repos, name_or_url.upper()))
+    else:
+        return Repository.from_zip(name_or_url)
 
 
 class Repository(object):

@@ -11,6 +11,7 @@
 from xml.etree import ElementTree as ET
 import requests
 
+
 class UnicodeBuilder(ET.XMLTreeBuilder):
 
     def _fixtext(self, text):

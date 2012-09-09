@@ -13,7 +13,7 @@ import argparse
 
 import repos
 from .release import release
-from .repository import Repository
+from .repository import Repository, get_repo
 from .common import urlretrieve
 
 
@@ -109,17 +109,6 @@ def parse_cli():
         parser.error('Too many args.')
 
     return args.command, args
-
-
-def get_repo(name_or_url):
-    '''Returns a repository for a given name or url. name_or_url can be
-    an official repository name found in repos.py or it can be a url to
-    a zipped repository file.
-    '''
-    if hasattr(repos, name_or_url.upper()):
-        return Repository(*getattr(repos, name_or_url.upper()))
-    else:
-        return Repository.from_zip(name_or_url)
 
 
 def all_addons(args):

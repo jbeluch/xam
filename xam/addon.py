@@ -91,13 +91,23 @@ class Addon(object):
 
     @property
     def dependencies(self):
-        '''A dict of required addons this addon is dependen on. Key is
+        '''A dict of required addons this addon is dependent on. Key is
         addon id and value is the required version.'''
         requires = self.xml.find('requires')
         if requires is not None:
             return OrderedDict((required.get('addon'), required.get('version'))
                     for required in requires.findall('import'))
         return {}
+
+    def set_dependency_version(self, addon_id, addon_version):
+        '''Sets the version attribute of an addon dependency.
+
+        :param addon_id: The id of the addon dependency
+        :param addon_version: The new version string
+        '''
+        addon = self.xml.find('./requires/import[@addon="%s"]' % addon_id)
+        if addon is not None:
+            addon.set('version', addon_version)
 
     @property
     def extensions(self):

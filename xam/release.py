@@ -12,6 +12,7 @@ import re
 import sys
 from subprocess import check_call, check_output
 from .addon import Addon
+from .repository import get_repo
 
 
 def prompt(msg, default=None):
@@ -52,6 +53,42 @@ def bump_minor(version_str):
     return '%s.%s' % (left, right)
 
 
+def compare_versions(version_a, version_b):
+    '''Compares two versions strings and returns 1 if version_a is greater, -1
+    is version_b is greater or 0 if they are equal.
+
+    >>> compare_versions('1.0', '1.1')
+    -1
+    >>> compare_versions('1.1', '0.4')
+    1
+    >>> compare_versions('0.0.1', '.1')
+    0
+    '''
+    if version_a == version_b:
+        return 0
+
+    # Convert parts to ints and strip out blank parts:
+    # '.1'.split('.') will result in ['', '1']
+    aparts = [int(part) for part in version_a.split('.') if part]
+    bparts = [int(part) for part in version_b.split('.') if part]
+
+    # if part lengths are unequal prepend with zeros
+    if len(aparts) > len(bparts):
+        bparts = [0] * (len(aparts) - len(bparts)) + bparts
+    elif len(bparts) > len(aparts):
+        aparts = [0] * (len(bparts) - len(aparts)) + aparts
+
+    # same number of parts now, start comparing from leftmost part
+    for a, b in zip(aparts, bparts):
+        if a > b:
+            return 1
+        elif b > a:
+            return -1
+    # the only way we can get here, is if the versions strings aren't equal,
+    # but when prepended with zeros they are equal. e.g.: .1 and 0.0.1
+    return 0
+
+
 def write_file(path, contents):
     '''Writes the given contents to the given path'''
     with open(path, 'w') as out:
@@ -76,6 +113,41 @@ def print_email(addon_id, version, git_url, tag, xbmc_version):
 
     for line in lines:
         print line
+
+def update_dependencies(addon_to_release, xbmc_version):
+    '''For any required dependencies, attempts to to update the version number
+    to the newest version available in the XBMC official repository.
+    '''
+    repo = get_repo(xbmc_version)
+    addons = repo.addons
+    for addon_id, addon_version in addon_to_release.dependencies.items():
+        if addon_id != 'xbmc.python':  # skip python dependency
+            try:
+                addon = (addon for addon in repo.addons if addon.id == addon_id).next()
+            except StopIteration:
+                # ERROR: no addon with that id
+                sys.exit('You have a dependency listed on "%s" but I can\'t '
+                         'find an addon with that ID in the %s repository. '
+                         'Aborting.' % (addon_id, xbmc_version))
+
+            if compare_versions(addon_version, addon.version) > 0:
+                # ERROR: newest version available is < specified version
+                sys.exit('You require version %s for addon %s, but the newest '
+                         'version I can find in the repository is %s. '
+                         'Aborting.' % (addon_version, addon_id,
+                                        addon.version))
+            elif compare_versions(addon_version, addon.version) < 0:
+                # found newer version, prompt for update
+                ans = prompt('I found a newer version of %s in the repository. '
+                             'Would you like to update the dependency from '
+                             'version %s to version %s? y/n.' % (
+                                addon_id, addon_version, addon.version),
+                             default='y')
+                if ans == 'y':
+                    print 'Updating %s to version %s' % (addon_id, addon.version)
+                    addon_to_release.set_dependency_version(addon_id, addon.version)
+            else:
+                print 'Dependency %s is already at the newest version.' % addon_id
 
 
 def release(args):
@@ -120,6 +192,12 @@ def release(args):
                  ' to quit. Otherwise,  hit Enter to continue.')
     if ans == 'q':
         sys.exit()
+
+    # Check dependencies
+    ans = prompt('Would you like to check for newer versions of depdencies '
+                 '(y/n)?', default='y')
+    if ans == 'y':
+        update_dependencies(addon, xbmc_version)
 
     # Ask for new version
     new_version = prompt('Specify new version number',
