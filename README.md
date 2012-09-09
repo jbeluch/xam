@@ -1,6 +1,8 @@
 XBMC Addon Manager
 ==================
 
+[![Build Status](https://secure.travis-ci.org/jbeluch/xam.png)](http://travis-ci.org/jbeluch/xam)
+
 A CLI utility for searching and listing XBMC Addon Repositories.
 
 Features
