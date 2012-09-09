@@ -61,7 +61,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'xam = xam.xam:main'
+            'xam = xam.cli:main'
         ]
     }
 )
