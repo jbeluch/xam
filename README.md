@@ -128,3 +128,69 @@ Example Usage
         <description>Browse online courses and lectures from the world's top scholars.</description>
       </extension>
     </addon>
+
+### Release a new version of your addon
+
+    (xbmc-vimcasts)jon@lenovo ~/Code/xbmc-vimcasts (master) $ xam release
+
+      oooo    ooo  .oooo.   ooo. .oo.  .oo.
+       `88b..8P'  `P  )88b  `888P"Y88bP"Y88b
+         Y888'     .oP"888   888   888   888
+       .o8"'88b   d8(  888   888   888   888
+      o88'   888o `Y888""8o o888o o888o o888o
+
+               (XBMC ADDON MANAGER)
+
+      I'm going to help you create a new release for VimCasts.
+
+    .. Init ..
+
+    Please answer the following:
+    [?] I see you are using git. Is master the branch you want to use for the release? (Y/n) 
+    [?] This release will be for XBMC EDEN. Is this correct? (Y/n) 
+
+    .. Release Metadata for plugin.video.vimcasts ..
+
+    [?] The current version is 1.1. What should the new version be? [1.2] 1.1
+    Writing new version to addon.xml...OK
+    [?] I see your addon has a few dependencies. Would you like to check for new versions? (Y/n) 
+    Starting new HTTP connection (1): mirrors.xbmc.org
+    Dependency script.module.xbmcswift2 is already at the newest version.
+    [?] I see you have a changelog.txt. Would you like to update it now? (Y/n) n
+    [?] I'm ready to commit the changes and tag the release. Should we continue? (Y/n) y
+
+    .. Release 1.1..
+
+    Adding local changes to staging...OK
+    [master d5e32ee] [xam-release-script] creating release for version 1.1
+     1 file changed, 6 insertions(+), 7 deletions(-)
+    Creating commit...OK
+    Tagging release...OK
+    Counting objects: 5, done.
+    Delta compression using up to 2 threads.
+    Compressing objects: 100% (3/3), done.
+    Writing objects: 100% (3/3), 385 bytes, done.
+    Total 3 (delta 2), reused 0 (delta 0)
+    To git@github.com:jbeluch/xbmc-vimcasts.git
+       63e631c..d5e32ee  HEAD -> master
+    Counting objects: 1, done.
+    Writing objects: 100% (1/1), 164 bytes, done.
+    Total 1 (delta 0), reused 0 (delta 0)
+    To git@github.com:jbeluch/xbmc-vimcasts.git
+     * [new tag]         1.1 -> 1.1
+    Pushing commit and tags to remote...OK
+
+    Congrats. Release was successful.
+
+    +--------------------+
+    | Mailing List Email |
+    +--------------------+
+
+    To: xbmc-addons@lists.sourceforge.net
+    Subject: [git pull] plugin.video.vimcasts
+
+    *addon - plugin.video.vimcasts
+    *version - 1.1
+    *url - git://github.com/jbeluch/xbmc-vimcasts.git
+    *tag - 1.1
+    *xbmc version - eden

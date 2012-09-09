@@ -3,7 +3,7 @@ try:
     from collections import OrderedDict
 except ImportError:
     from collective.ordereddict import OrderedDict
-from xam import release
+from xam.cli.release import compare_versions
 
 
 class TestRelease(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestRelease(unittest.TestCase):
             (('1.3', '1.3'), 0),
         ]
         for inp, expected in known_values:
-            self.assertEqual(release.compare_versions(*inp), expected)
+            self.assertEqual(compare_versions(*inp), expected)
 
 
 if __name__ == '__main__':

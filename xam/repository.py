@@ -7,6 +7,7 @@
 import os
 import sys
 import base64
+import logging
 from zipfile import ZipFile
 from urlparse import urljoin
 from xml.etree import ElementTree as ET
@@ -57,6 +58,8 @@ def get_repo(name_or_url):
 class Repository(object):
     '''A class representing an XBMC addon repository.'''
 
+    log = logging.getLogger(__name__)
+
     def __init__(self, info_url, datadir_url, checksum_url=None):
         '''If checksum_url is None, the remote addons.xml will be
         checked for every request. If provided, checksums will be
@@ -102,7 +105,7 @@ class Repository(object):
 
         # TODO: Add support for non-zipped addons
         if extension.find('datadir').get('zip') != True:
-            print ('* Warning: Repositories which do not zip addons are '
+            self.log.warning('Repositories which do not zip addons are '
                    'unsupported at this time. The download functionality might'
                    ' not work properly.')
         return cls(info_url, datadir_url, checksum_url)
@@ -116,7 +119,7 @@ class Repository(object):
         '''
         if self.remote_md5 is None or self.local_md5 != self.remote_md5:
             # Download everything
-            print '* Updating addons.xml from remote...'
+            self.log.debug('* Updating addons.xml from remote...')
             self._addons_xml = get(self.info_url)
             if self.checksum_url is not None:
                 # Some repos don't have a checksum URL, so we will have to
@@ -124,7 +127,7 @@ class Repository(object):
                 write_file(safe_cache_fn(self.info_url), self._addons_xml)
                 write_file(safe_cache_fn(self.checksum_url), self.remote_md5)
         elif self._addons_xml is None:
-            print '* Local addons.xml is up to date...'
+            self.log.debug( '* Local addons.xml is up to date...')
             with open(safe_cache_fn(self.info_url)) as addons_file:
                 self._addons_xml = addons_file.read()
         return self._addons_xml

@@ -1,1 +1,5 @@
 requests
+GitPython
+cliff
+termcolor
+colorama

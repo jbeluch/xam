@@ -18,7 +18,7 @@ Links
 * `website <http://github.com/jbeluch/xam/>`_
 
 '''
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def get_requires():
     '''If python > 2.7, argparse and OrderedDict will be included. Otherwsise
@@ -47,7 +47,7 @@ setup(
     description='A utility for listing, searching and viewing source code for '
                 'XBMC addons.',
     long_description=__doc__,
-    packages=['xam'],
+    packages=find_packages(),
     platforms='any',
     install_requires=get_requires(),
     classifiers=[
@@ -60,8 +60,20 @@ setup(
         'Topic :: Utilities',
     ],
     entry_points={
+        #'console_scripts': [
+            #'xam = xam.cli:main'
+        #]
         'console_scripts': [
-            'xam = xam.cli:main'
+            'xam = xam.main:main'
+            ],
+        'xam': [
+            'all = xam.cli:ListAddons',
+            'info = xam.cli:ShowAddonInfo',
+            'depends = xam.cli:ShowDependentAddons',
+            'get = xam.cli:GetAddon',
+            'search = xam.cli:SearchAddons',
+            'release = xam.cli.release:ReleaseAddon',
         ]
-    }
+    },
+    
 )
