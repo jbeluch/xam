@@ -41,6 +41,7 @@ class TestAddon(TestCase):
             u'plugin.video.youtube': u'2.9.1',
         }, addon.dependencies)
 
+        self.assertEqual(addon.languages, ['en', 'fr'])
         self.assertNotEqual(None, addon.metadata)
         self.assertEqual('all', addon.platform)
         self.assertEqual(OrderedDict(

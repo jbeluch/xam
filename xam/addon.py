@@ -138,6 +138,16 @@ class Addon(object):
 
     @property
     @silence_attr_error
+    def languages(self):
+        '''Returns a list of language codes the addon provides content for.'''
+        langstr = self.metadata.find('language').text
+        if langstr:
+            return langstr.split()
+        return []
+
+
+    @property
+    @silence_attr_error
     def platform(self):
         '''The addon's platform'''
         return self.metadata.find('platform').text

@@ -11,6 +11,7 @@
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
     <summary>Watch lectures from Academic Earth (http://academicearth.org)</summary>
+    <language>en fr</language>
     <description>Browse online courses and lectures from the world's top scholars.</description>
   </extension>
 </addon>
