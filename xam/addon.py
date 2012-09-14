@@ -141,7 +141,7 @@ class Addon(object):
     def languages(self):
         '''Returns a list of language codes the addon provides content for.'''
         lang = self.metadata.find('language')
-        if lang:
+        if lang is not None:
             return lang.text.split()
         return []
 
