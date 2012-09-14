@@ -140,9 +140,9 @@ class Addon(object):
     @silence_attr_error
     def languages(self):
         '''Returns a list of language codes the addon provides content for.'''
-        langstr = self.metadata.find('language').text
-        if langstr:
-            return langstr.split()
+        lang = self.metadata.find('language')
+        if lang:
+            return lang.text.split()
         return []
 
 
