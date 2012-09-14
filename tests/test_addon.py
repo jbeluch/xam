@@ -94,6 +94,40 @@ class TestAddon(TestCase):
                 self.assertEqual(val, actual[key])
 
 
+LANG_XML_TMP = '''
+<addon id="plugin.video.academicearth" name="Academic Earth" provider-name="Jonathan Beluch (jbel)" version="1.2.1">
+  <extension point="xbmc.addon.metadata">
+    %s
+  </extension>
+</addon>
+'''
+class TestLangTags(TestCase):
+
+    def test_no_lang_tag(self):
+        xmlstr = LANG_XML_TMP % ''
+        addon = Addon(ET.fromstring(xmlstr))
+        self.assertEqual(addon.languages, [])
+
+    def test_self_close_lang_tag(self):
+        xmlstr = LANG_XML_TMP % '<language/>'
+        addon = Addon(ET.fromstring(xmlstr))
+        self.assertEqual(addon.languages, [])
+
+    def test_empty_lang_tag(self):
+        xmlstr = LANG_XML_TMP % '<language></language>'
+        addon = Addon(ET.fromstring(xmlstr))
+        self.assertEqual(addon.languages, [])
+
+    def test_data_lang_tag(self):
+        xmlstr = LANG_XML_TMP % '<language>en</language>'
+        addon = Addon(ET.fromstring(xmlstr))
+        self.assertEqual(addon.languages, ['en'])
+
+        xmlstr = LANG_XML_TMP % '<language>en fr</language>'
+        addon = Addon(ET.fromstring(xmlstr))
+        self.assertEqual(addon.languages, ['en', 'fr'])
+
+
+
 if __name__ == '__main__':
-    import unittest
-    unittest.main()
+   unittest.main()
