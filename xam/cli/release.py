@@ -181,7 +181,7 @@ class ReleaseAddon(Command):
                     if self.yes_no(msg):
                         self.app.stdout.write('Writing to addon.xml...')
                         addon_to_release.set_dependency_version(addon_id, addon.version)
-                        write_file('addon.xml', addon.to_xml_string())
+                        write_file('addon.xml', addon_to_release.to_xml_string())
                         self.app.stdout.write(GREEN('OK') + '\n')
                 else:
                     msg = 'Dependency %s is already at the newest version.\n' % BLUE(addon_id)
