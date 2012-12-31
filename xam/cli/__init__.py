@@ -16,7 +16,7 @@ def uppercase(inp):
 
 def add_repo_arg(parser):
     parser.add_argument('--repo', type=uppercase, choices=REPO_NAMES,
-                        default='EDEN')
+                        default='FRODO')
 
 
 def generate_addon_output(addon):

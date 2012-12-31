@@ -13,6 +13,12 @@
 '''
 
 
+FRODO= (
+    'http://mirrors.xbmc.org/addons/frodo/addons.xml',
+    'http://mirrors.xbmc.org/addons/frodo/',
+    'http://mirrors.xbmc.org/addons/frodo/addons.xml.md5',
+)
+
 FRODO_PRE = (
     'http://mirrors.xbmc.org/addons/frodo-pre/addons.xml',
     'http://mirrors.xbmc.org/addons/frodo-pre/',
