@@ -39,7 +39,7 @@ def get_requires():
 
 setup(
     name='xam',
-    version='0.3-dev',
+    version='0.2.1',
     url='http://github.com/jbeluch/xam/',
     license='BSD',
     author='Jonathan Beluch',
@@ -75,5 +75,5 @@ setup(
             'release = xam.cli.release:ReleaseAddon',
         ]
     },
-    
+
 )

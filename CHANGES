@@ -1,8 +1,16 @@
+Version 0.2.1
+-----------
+
+* Add support for language tags.
+* Update xam release script
+
+
 Version 0.2
 -------------
 
 * Add `xam release`
 * Fix broken imports
+
 
 Version 0.1
 -----------
